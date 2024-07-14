@@ -1,9 +1,8 @@
 import tkinter as tk
 import customtkinter as ctk
-import instaloader
+import requests
+from bs4 import BeautifulSoup
 from tkinter import filedialog, messagebox
-
-L = instaloader.Instaloader()
 
 class InstaFollowerFilterApp(ctk.CTk):
     def __init__(self):
@@ -12,24 +11,11 @@ class InstaFollowerFilterApp(ctk.CTk):
         self.title("Follower Scout")
         self.geometry("400x500")
 
-        self.label = ctk.CTkLabel(self, text="Login to Instagram")
+        self.label = ctk.CTkLabel(self, text="Select File and Filter Criteria")
         self.label.pack(pady=10)
-
-        self.username_entry = ctk.CTkEntry(self, placeholder_text="Username")
-        self.username_entry.pack(pady=5)
-
-        self.password_entry = ctk.CTkEntry(self, placeholder_text="Password", show="*")
-        self.password_entry.pack(pady=5)
-
-        self.proxy_entry = ctk.CTkEntry(self, placeholder_text="Proxy (optional)")
-        self.proxy_entry.pack(pady=5)
-
-        self.login_button = ctk.CTkButton(self, text="Login", command=self.login)
-        self.login_button.pack(pady=10)
 
         self.filter_button = ctk.CTkButton(self, text="Select File", command=self.select_file)
         self.filter_button.pack(pady=10)
-        self.filter_button.configure(state="disabled")
 
         self.min_followers_entry = ctk.CTkEntry(self, placeholder_text="Min Followers")
         self.min_followers_entry.pack(pady=5)
@@ -42,21 +28,6 @@ class InstaFollowerFilterApp(ctk.CTk):
         self.apply_filter_button = ctk.CTkButton(self, text="Apply Filter", command=self.apply_filter)
         self.apply_filter_button.pack(pady=10)
         self.apply_filter_button.configure(state="disabled")
-
-    def login(self):
-        username = self.username_entry.get()
-        password = self.password_entry.get()
-        proxy = self.proxy_entry.get()
-
-        if proxy:
-            L.context.session.proxies = {'http': proxy, 'https': proxy}
-
-        try:
-            L.login(username, password)
-            self.filter_button.configure(state="normal")
-            messagebox.showinfo("Login Success", "Successfully logged in!")
-        except Exception as e:
-            messagebox.showerror("Login Error", str(e))
 
     def select_file(self):
         self.file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
@@ -85,11 +56,11 @@ class InstaFollowerFilterApp(ctk.CTk):
             with open(output_file, 'w') as file:
                 for user in users:
                     try:
-                        profile = instaloader.Profile.from_username(L.context, user)
-                        followers_count = profile.followers
+                        followers_count = self.get_followers_count(user)
 
-                        if min_followers <= followers_count <= max_followers:
+                        if followers_count is not None and min_followers <= followers_count <= max_followers:
                             file.write(user + "\n")
+                            file.flush()  # Ensure the data is written to disk immediately
                     except Exception as e:
                         print(f"Error processing user {user}: {str(e)}")
 
@@ -97,6 +68,28 @@ class InstaFollowerFilterApp(ctk.CTk):
         except Exception as e:
             messagebox.showerror("Error", str(e))
 
+    def get_followers_count(self, username):
+        url = f"https://www.instagram.com/{username}/"
+        response = requests.get(url)
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, 'html.parser')
+            meta_tag = soup.find('meta', attrs={'name': 'description'})
+            if meta_tag:
+                description = meta_tag['content']
+                followers_text = description.split('-')[0].split()[0]
+                followers_count = self.parse_followers(followers_text)
+                print(followers_count)
+                return followers_count
+        return None
+
+    def parse_followers(self, followers_text):
+        followers_text = followers_text.lower()
+        if 'k' in followers_text:
+            return int(float(followers_text.replace('k', '')) * 1000)
+        elif 'm' in followers_text:
+            return int(float(followers_text.replace('m', '')) * 1000000)
+        else:
+            return int(followers_text.replace(',', ''))
 
 if __name__ == "__main__":
     app = InstaFollowerFilterApp()
