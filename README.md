@@ -64,7 +64,7 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 
 ### Demo Video
 
-[Watch the demo video](./FollowerScout.mkv)
+[Watch the demo video](./FollowerScout.mkvp)
 
 
 ## License
