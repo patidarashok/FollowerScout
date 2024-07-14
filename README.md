@@ -72,10 +72,6 @@ For any inquiries, please contact [can.yildiz.1386@gmail.com](mailto:can.yildiz.
 
 ---
 
-### Screenshots
-
-![screenshot1](https://via.placeholder.com/400x300.png?text=Screenshot+1)
-![screenshot2](https://via.placeholder.com/400x300.png?text=Screenshot+2)
 
 ### Future Plans
 
@@ -87,5 +83,3 @@ For any inquiries, please contact [can.yildiz.1386@gmail.com](mailto:can.yildiz.
 
 Developed with ❤️ by [Canyildiz1386](https://github.com/Canyildiz1386)
 ```
-
-این `README.md` شامل توضیحات کامل پروژه، نحوه نصب و استفاده از آن، و همچنین بخشی برای تصاویر و برنامه‌های آینده است. تصاویر را می‌توانید به دلخواه خود جایگزین کنید.
