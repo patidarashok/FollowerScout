@@ -62,6 +62,13 @@ Filtered users saved to filtered_users.txt
 
 Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
 
+### Demo Video
+
+<video width="320" height="240" controls>
+  <source src="FollowerScout.mkv">
+  Your browser does not support the video tag.
+</video>
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
