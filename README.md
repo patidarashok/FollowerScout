@@ -82,4 +82,4 @@ For any inquiries, please contact [can.yildiz.1386@gmail.com](mailto:can.yildiz.
 ---
 
 Developed with ❤️ by [Canyildiz1386](https://github.com/Canyildiz1386)
-```
+
