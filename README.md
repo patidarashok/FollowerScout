@@ -65,7 +65,7 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 ### Demo Video
 
 <video width="320" height="240" controls>
-  <source src="./FollowerScout.mkv" type="video/mkv">
+  <source src="https://github.com/Canyildiz1386/FollowerScout/blob/master/FollowerScout.mkv" type="video/mkv">
   Your browser does not support the video tag.
 </video>
 
